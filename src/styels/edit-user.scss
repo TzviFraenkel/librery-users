@@ -1,0 +1,34 @@
+.background-edit {
+    position: fixed;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.65);
+    height: 100%;
+    width: 100%;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    .edit-forms {
+        width: 300px;
+        padding: 20px;
+        background-color: cadetblue;
+        display: flex;
+        flex-direction: column;
+        border-radius: 10px;
+
+        .edit-header {
+            text-align: center;
+            margin: 0 0 20px;
+        }
+
+        form {
+            label {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 7px;
+            }
+        }
+    }
+}

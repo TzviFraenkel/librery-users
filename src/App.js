@@ -1,12 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+// import logo from './logo.svg';
+// import { Counter } from './features/counter/Counter';
+import { UsersList } from './features/components/list';
 
 function App() {
+  // console.log('render from app');
   return (
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <Counter />
         <p>
@@ -50,7 +51,8 @@ function App() {
             React Redux
           </a>
         </span>
-      </header>
+      </header> */}
+      <UsersList/>
     </div>
   );
 }
