@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-export function EditUser({ user, toggleEdit }) {
-    console.log('edit component!');
-    // useEffect(() => {
-    //     window.scrollTo(0, 0);
-    // }, []);
+export function EditUser({ user, toggleEdit, onEditUser }) {
 
     const [inputValues, setInputValue] = useState(user.name ? {
         firstName: user.name.first,
@@ -28,20 +24,23 @@ export function EditUser({ user, toggleEdit }) {
 
     const handleSubmit = (ev) => {
         ev.preventDefault();
-        console.log(inputValues);
-        const newGig = {
-            ...inputValues, owner: {
-                // _id: user._id,
-                // fullname: user.fullname,
-                // imgUrl: user.imgUrl,
-                // level: utilService.makeLevel(),
-                // rate: utilService.makeRate(),
-                // raters: utilService.getRandomIntInclusive(3, 1400),
-                // avatarColor: user.avatarColor
-            }
+        const updatedUser = {
+            ...user,
+            name: {
+                ...user.name,
+                first: inputValues.firstName,
+                last: inputValues.lastName
+            },
+            location: {
+                ...user.location,
+                city: inputValues.city,
+                country: inputValues.country
+            },
+            email: inputValues.email
         }
-        // addGig(newGig)
-        // navigate('/profile')
+        // console.log(updatedUser);
+        onEditUser(updatedUser)
+        toggleEdit()
     }
 
     const stopPropagation = (ev) => {
@@ -50,7 +49,7 @@ export function EditUser({ user, toggleEdit }) {
 
 
     return (
-        <div className='background-edit' onClick={() => {toggleEdit()}}>
+        <div className='background-edit' onClick={() => { toggleEdit() }}>
             <div className="edit-forms" onClick={stopPropagation}>
                 <h3 className='edit-header'>Edit user</h3>
                 <form

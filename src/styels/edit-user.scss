@@ -11,11 +11,12 @@
     
     .edit-forms {
         width: 300px;
-        padding: 20px;
+        padding: 20px 20px 55px;
         background-color: cadetblue;
         display: flex;
         flex-direction: column;
         border-radius: 10px;
+        position: relative;
 
         .edit-header {
             text-align: center;
@@ -28,6 +29,22 @@
                 display: flex;
                 justify-content: space-between;
                 margin-bottom: 7px;
+            }
+
+            button {
+                position: absolute;
+                right: 20px;
+                bottom: 20px;
+                background-color: #fff;
+                color: rgb(30, 29, 29);
+                border: none;
+                border-radius: 2px;
+                padding: 5px;
+
+                &:hover {
+                    cursor: pointer;
+                    background-color: rgb(169, 219, 221);
+                }
             }
         }
     }

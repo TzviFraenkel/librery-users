@@ -40,11 +40,12 @@ export function UsersList() {
 
     useEffect(() => {
         setIsList(list.length ? true : false)
+        console.log(' change in list', list);
     }, [list])
 
     const removeUser = (userId) => {
         storageService.remove('users', userId)
-        setList(list.filter( user => user._id !== userId))
+        setList(list.filter(user => user._id !== userId))
     }
 
     const onToggleEdit = (userToEdit = {}) => {
@@ -52,15 +53,21 @@ export function UsersList() {
         setToggleEdit(!toggleEdit)
     }
 
+    const onEditUser = (editedUser) => {
+        storageService.put('users', editedUser)
+        setList(list.map(user => (user._id === editedUser._id) ? editedUser : user))
+    }
+
+
     return (
         <div>
             {isList &&
                 <section className='usersList'>
-                    {list.map((user, idx) => <UserPreview user={user} removeUser={removeUser} key={idx} toggleEdit={onToggleEdit}/>)}
+                    {list.map((user, idx) => <UserPreview user={user} removeUser={removeUser} key={idx} toggleEdit={onToggleEdit} />)}
                 </section>
             }
             {!isList && <h1>Loding...</h1>}
-            {toggleEdit && <EditUser user={userToEdit} toggleEdit={onToggleEdit}  />}
+            {toggleEdit && <EditUser user={userToEdit} toggleEdit={onToggleEdit} onEditUser={onEditUser} />}
         </div>
     )
 }
