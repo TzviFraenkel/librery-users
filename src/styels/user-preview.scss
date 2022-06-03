@@ -1,0 +1,40 @@
+.user-preview {
+    background-color: #3BACB6;
+    border-radius: 6px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img {
+        width: 72px;
+        height: 72px;
+    }
+
+    .user-name {
+        margin: 7px 0 10px;
+    }
+
+    p {
+        margin: 0 0 5px;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        button {
+            background-color: #fff;
+            color: rgb(30, 29, 29);
+            border: none;
+            border-radius: 2px;
+            padding: 5px;
+
+            &:hover {
+                cursor: pointer;
+                background-color: #82DBD8;
+            }
+        }
+    }
+}

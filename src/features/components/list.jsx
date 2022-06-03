@@ -12,6 +12,7 @@ export function UsersList() {
     const [list, setList] = useState([])
     const [isList, setIsList] = useState(false)
     const [toggleEdit, setToggleEdit] = useState(false)
+    const [isAddNewUser, setAddNewUser] = useState(false)
     const [userToEdit, setUserToEdit] = useState({})
 
     let getUsers = async () => {
@@ -40,17 +41,22 @@ export function UsersList() {
 
     useEffect(() => {
         setIsList(list.length ? true : false)
-        console.log(' change in list', list);
     }, [list])
+
+    const onToggleEdit = (userToEdit = {}, isAddNewUser = false) => {
+        setUserToEdit(userToEdit)
+        setToggleEdit(!toggleEdit)
+        setAddNewUser(isAddNewUser)
+    }
 
     const removeUser = (userId) => {
         storageService.remove('users', userId)
         setList(list.filter(user => user._id !== userId))
     }
 
-    const onToggleEdit = (userToEdit = {}) => {
-        setUserToEdit(userToEdit)
-        setToggleEdit(!toggleEdit)
+    const onAddNewUser = (newUser) =>{
+        storageService.post('users', newUser)
+        setList([...list, newUser])
     }
 
     const onEditUser = (editedUser) => {
@@ -60,14 +66,18 @@ export function UsersList() {
 
 
     return (
-        <div>
+        <div className='users-list-background'>
+            <h1 className='haeder'>Librery Users</h1>
             {isList &&
                 <section className='usersList'>
+                    <div className="add-section">
+                    <button className="add-user" onClick={() => onToggleEdit({},true)}>Add new User</button>
+                    </div>
                     {list.map((user, idx) => <UserPreview user={user} removeUser={removeUser} key={idx} toggleEdit={onToggleEdit} />)}
                 </section>
             }
             {!isList && <h1>Loding...</h1>}
-            {toggleEdit && <EditUser user={userToEdit} toggleEdit={onToggleEdit} onEditUser={onEditUser} />}
+            {toggleEdit && <EditUser isAddNewUser={isAddNewUser} user={userToEdit} toggleEdit={onToggleEdit} onEditUser={onEditUser} onAddNewUser={onAddNewUser}/>}
         </div>
     )
 }
