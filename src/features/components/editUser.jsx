@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import { updateUser, addUser } from '../../app/store/user.actions';
 
 
-export function _EditUser({ updateUser, addUser, isAddNewUser, user, toggleEdit }) {
+export function _EditUser({ list, updateUser, addUser, isAddNewUser, user, toggleEdit }) {
 
     const [inputValues, setInputValue] = useState((user.name && !isAddNewUser) ? {
         firstName: user.name.first,
@@ -69,7 +69,9 @@ export function _EditUser({ updateUser, addUser, isAddNewUser, user, toggleEdit 
 
     function validateEmail(email) {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(email).toLowerCase());
+        if (!re.test(String(email).toLowerCase())) return false;
+        const listWithoutUser = list.filter(locUser=> locUser._id !== user._id)
+        return listWithoutUser.every(user => user.email.toLowerCase() !== email.toLowerCase());
     }
 
     return (
@@ -179,10 +181,14 @@ export function _EditUser({ updateUser, addUser, isAddNewUser, user, toggleEdit 
     );
 }
 
-
+function mapStateToProps(state) {
+    return {
+        list: state.users.users,
+    }
+}
 const mapDispatchToProps = {
     updateUser,
     addUser,
 }
 
-export const EditUser = connect(null, mapDispatchToProps)(_EditUser)
+export const EditUser = connect(mapStateToProps, mapDispatchToProps)(_EditUser)

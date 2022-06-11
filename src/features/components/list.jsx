@@ -10,33 +10,11 @@ import { loadUsers, removeUser, setFilter } from '../../app/store/user.actions';
 
 export function _UsersList({ list, loadUsers }) {
 
-    // const url = 'https://randomuser.me/api/?results=10';
-
-    // const [list, setList] = useState([])
     const [isList, setIsList] = useState(false)
     const [toggleEdit, setToggleEdit] = useState(false)
     const [isAddNewUser, setAddNewUser] = useState(false)
     const [userToEdit, setUserToEdit] = useState({})
 
-    // let getUsers = async () => {
-    //     try {
-    //         // let res = await storageService.query('users')
-    //         // if (!res.length) usersFromApi()
-    //         // else setList(res)
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    //     // console.log(list);
-    // };
-
-    // const usersFromApi = async () => {
-    //     await fetch(url)
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             // setList(data.results)
-    //             storageService.multiplePost('users', data.results)
-    //         });
-    // }
 
     useEffect(() => {
         loadUsers()
@@ -51,22 +29,6 @@ export function _UsersList({ list, loadUsers }) {
         setToggleEdit(!toggleEdit)
         setAddNewUser(isAddNewUser)
     }
-
-    // const removeUser = (userId) => {
-    //     storageService.remove('users', userId)
-    //     // setList(list.filter(user => user._id !== userId))
-    // }
-
-    // const onAddNewUser = (newUser) => {
-    //     storageService.post('users', newUser)
-    //     // setList([...list, newUser])
-    // }
-
-    // const onEditUser = (editedUser) => {
-    //     storageService.put('users', editedUser)
-    //     // setList(list.map(user => (user._id === editedUser._id) ? editedUser : user))
-    // }
-
 
     return (
         <div className='users-list-background'>
@@ -88,7 +50,6 @@ export function _UsersList({ list, loadUsers }) {
 function mapStateToProps(state) {
     return {
         list: state.users.users,
-        // storeFilterBy: state.users.filterBy,
     }
 }
 const mapDispatchToProps = {
