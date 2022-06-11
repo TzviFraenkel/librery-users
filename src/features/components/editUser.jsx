@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { connect } from "react-redux"
+import { updateUser, addUser } from '../../app/store/user.actions';
 
-export function EditUser({ isAddNewUser, user, toggleEdit, onEditUser, onAddNewUser }) {
+
+export function _EditUser({ updateUser, addUser, isAddNewUser, user, toggleEdit }) {
 
     const [inputValues, setInputValue] = useState((user.name && !isAddNewUser) ? {
         firstName: user.name.first,
@@ -56,7 +59,7 @@ export function EditUser({ isAddNewUser, user, toggleEdit, onEditUser, onAddNewU
             email: inputValues.email,
             phone: inputValues.phone
         }
-        isAddNewUser ? onAddNewUser(updatedUser): onEditUser(updatedUser) 
+        isAddNewUser ? addUser(updatedUser) : updateUser(updatedUser)
         toggleEdit()
     }
 
@@ -175,3 +178,11 @@ export function EditUser({ isAddNewUser, user, toggleEdit, onEditUser, onAddNewU
         </div>
     );
 }
+
+
+const mapDispatchToProps = {
+    updateUser,
+    addUser,
+}
+
+export const EditUser = connect(null, mapDispatchToProps)(_EditUser)

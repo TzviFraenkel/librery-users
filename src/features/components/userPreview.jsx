@@ -1,6 +1,10 @@
+import React from 'react';
+import { connect } from "react-redux"
+import { removeUser } from '../../app/store/user.actions';
 
 
-export function UserPreview({ user, removeUser, toggleEdit }) {
+
+export function _UserPreview({ user, removeUser, toggleEdit }) {
 
 
     return (
@@ -17,3 +21,9 @@ export function UserPreview({ user, removeUser, toggleEdit }) {
         </section>
     )
 }
+
+const mapDispatchToProps = {
+    removeUser,
+}
+
+export const UserPreview = connect( null , mapDispatchToProps)(_UserPreview)
