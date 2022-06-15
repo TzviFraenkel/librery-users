@@ -3,10 +3,29 @@
     min-height: 100vh;
     padding: 40px 0 40px;
 
-    .haeder {
-        text-align: center;
-        margin: 0 0 40px;
+    .header-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
+        .haeder {
+            text-align: center;
+            margin: 0 0 40px;
+
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+
+            input {
+                margin-right: 5px;
+            }
+        }
+    }
+
+    .loading {
+        text-align: center;
     }
 
     .add-section {
@@ -17,7 +36,7 @@
         align-items: center;
         justify-content: center;
 
-        .add-user{ 
+        .add-user {
             width: 120px;
             height: 60px;
             background-color: #fff;

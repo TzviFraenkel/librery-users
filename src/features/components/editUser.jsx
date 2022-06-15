@@ -6,6 +6,7 @@ import { updateUser, addUser } from '../../app/store/user.actions';
 export function _EditUser({ list, updateUser, addUser, isAddNewUser, user, toggleEdit }) {
 
     const [inputValues, setInputValue] = useState((user.name && !isAddNewUser) ? {
+        title: user.name.title,
         firstName: user.name.first,
         lastName: user.name.last,
         email: user.email,
@@ -13,6 +14,7 @@ export function _EditUser({ list, updateUser, addUser, isAddNewUser, user, toggl
         city: user.location.city,
         phone: user.phone
     } : {
+        title: '',
         firstName: '',
         lastName: '',
         email: '',
@@ -44,6 +46,7 @@ export function _EditUser({ list, updateUser, addUser, isAddNewUser, user, toggl
             ...user,
             name: {
                 ...user.name,
+                title: inputValues.title,
                 first: inputValues.firstName,
                 last: inputValues.lastName
             },
@@ -71,7 +74,7 @@ export function _EditUser({ list, updateUser, addUser, isAddNewUser, user, toggl
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!re.test(String(email).toLowerCase())) return false;
         const listWithoutUser = list.filter(locUser=> locUser._id !== user._id)
-        return listWithoutUser.every(user => user.email.toLowerCase() !== email.toLowerCase());
+        return listWithoutUser.every(user => user.email.toLowerCase() !== email.toLowerCase()) ;
     }
 
     return (
@@ -81,6 +84,20 @@ export function _EditUser({ list, updateUser, addUser, isAddNewUser, user, toggl
                 <form
                     onSubmit={handleSubmit}
                 >
+                    <div className="form-control">
+                        <label><span>Title</span>
+                            <input
+                                placeholder="Title"
+                                type="string"
+                                name="title"
+                                id="title"
+                                className="input-field"
+                                onChange={(e) => handleChange(e)}
+                                value={inputValues.title}
+                                required
+                            />
+                        </label>
+                    </div>
                     <div className="form-control">
                         <label><span>First Name</span>
                             <input
