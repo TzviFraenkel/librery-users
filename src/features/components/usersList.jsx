@@ -12,10 +12,10 @@ import { loadUsers, removeUser } from '../../app/store/user.actions';
 
 export function _UsersList({ list, loadUsers }) {
 
-    const [isList, setIsList] = useState(false)
+    // const [isList, setIsList] = useState(false)
     const [toggleEdit, setToggleEdit] = useState(false)
     const [isAddNewUser, setAddNewUser] = useState(false)
-    const [userToEdit, setUserToEdit] = useState({})
+    const [userToEditId, setUserToEditId] = useState({})
     const [search, setSearch] = useState('')
     const [filterdList, setFilterdList] = useState([])
 
@@ -25,13 +25,13 @@ export function _UsersList({ list, loadUsers }) {
     }, [])
 
     useEffect(() => {
-        setIsList(list.length ? true : false)
+        // setIsList(list.length ? true : false)
         setFilterdList(list)
         setSearch('')
     }, [list])
 
-    const onToggleEdit = (userToEdit = {}, isAddNewUser = false) => {
-        setUserToEdit(userToEdit)
+    const onToggleEdit = (userToEditId = {}, isAddNewUser = false) => {
+        setUserToEditId(userToEditId)
         setToggleEdit(!toggleEdit)
         setAddNewUser(isAddNewUser)
     }
@@ -47,12 +47,10 @@ export function _UsersList({ list, loadUsers }) {
     const handleFilterdList = () => {
         const lowerSearch = search.toLowerCase()
         let filterd = list.filter(user => lowerSearch === ""
-            || user.name.title.toLowerCase().includes(lowerSearch)
-            || user.name.first.toLowerCase().includes(lowerSearch)
-            || user.name.last.toLowerCase().includes(lowerSearch)
+            || (user.name.title + ' ' + user.name.first + ' ' + user.name.last).toLowerCase().includes(lowerSearch)
+            || (user.location.country + ' ' + user.location.city).toLowerCase().includes(lowerSearch)
+            || (user.location.city + ' ' + user.location.country).toLowerCase().includes(lowerSearch)
             || user.email.toLowerCase().includes(lowerSearch)
-            || user.location.city.toLowerCase().includes(lowerSearch)
-            || user.location.country.toLowerCase().includes(lowerSearch)
             || user.phone.toLowerCase().includes(lowerSearch)
         )
         setFilterdList(filterd)
@@ -71,16 +69,16 @@ export function _UsersList({ list, loadUsers }) {
                     <FaSearch />
                 </form>
             </header>
-            {isList &&
+            {list.length ?
                 <section className='usersList'>
                     <div className="add-section">
                         <button className="add-user" onClick={() => onToggleEdit({}, true)}>Add new User</button>
                     </div>
                     {filterdList.map((user, idx) => <UserPreview user={user} key={idx} toggleEdit={onToggleEdit} />)}
                 </section>
-            }
-            {!isList && <h1 className='loading'>Loding...</h1>}
-            {toggleEdit && <EditUser isAddNewUser={isAddNewUser} user={userToEdit} toggleEdit={onToggleEdit} />}
+
+                : <h1 className='loading'>Loding...</h1>}
+            {toggleEdit && <EditUser isAddNewUser={isAddNewUser} userId={userToEditId} toggleEdit={onToggleEdit} />}
         </div>
     )
 }

@@ -2,6 +2,9 @@
 @import "styels/list.scss";
 @import "styels/user-preview.scss";
 
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;

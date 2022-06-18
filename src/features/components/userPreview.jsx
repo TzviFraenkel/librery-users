@@ -15,7 +15,7 @@ export function _UserPreview({ user, removeUser, toggleEdit }) {
             <p>{user.location.city}, {user.location.country}</p>
             <p>{user.phone}</p>
             <div className="buttons">
-                <button onClick={() => { toggleEdit(user) }}>Edit</button>
+                <button onClick={() => { toggleEdit(user._id, false) }}>Edit</button>
                 <button onClick={() => { removeUser(user._id) }}>Delete</button>
             </div>
         </section>
