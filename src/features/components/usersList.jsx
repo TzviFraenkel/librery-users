@@ -19,13 +19,16 @@ export function _UsersList({ list, loadUsers }) {
     const [search, setSearch] = useState('')
     const [filterdList, setFilterdList] = useState([])
 
+    const [usersPerPage, setUsersPerPage] = useState(10)
+    const [currentPage, setCurrentPage] = useState(1)
+    // const [currPageUsers, setCurrPageUsers] = useState([])
 
+    //data fetching 
     useEffect(() => {
         loadUsers()
     }, [])
 
     useEffect(() => {
-        // setIsList(list.length ? true : false)
         setFilterdList(list)
         setSearch('')
     }, [list])
@@ -36,8 +39,12 @@ export function _UsersList({ list, loadUsers }) {
         setAddNewUser(isAddNewUser)
     }
 
-    const handleChange = (ev) => {
+    const handleSearchChange = (ev) => {
         setSearch(ev.target.value)
+    }
+
+    const handleSearchSubmit = (ev) => {
+        ev.preventDefault();
     }
 
     useEffect(() => {
@@ -55,26 +62,40 @@ export function _UsersList({ list, loadUsers }) {
         )
         setFilterdList(filterd)
     }
-
-    const handleSubmit = (ev) => {
-        ev.preventDefault();
+    const onSelectPage = (diff) => {
+        let page = currentPage
+        page += diff
+        if (page === 0) page = 1
+        if (page > Math.ceil(filterdList.length / usersPerPage)) page -= 1
+        setCurrentPage(page)
     }
+    const indexOfFirstUser = (currentPage - 1) * usersPerPage;
+    //is the last page?
+    const indexOfLastUser = !(currentPage === Math.ceil(filterdList.length / usersPerPage))
+        ? indexOfFirstUser + usersPerPage
+        : indexOfFirstUser + (filterdList.length % usersPerPage);
+    const currentUsers = filterdList.slice(indexOfFirstUser, indexOfLastUser);
+
 
     return (
         <div className='users-list-background'>
             <header className="header-section">
                 <h1 className='haeder'>Users Librery</h1>
-                <form className="search-form" onSubmit={handleSubmit}>
-                    <input onChange={handleChange} value={search} type="search" name="search-box" placeholder="Search" />
+                <form className="search-form" onSubmit={handleSearchSubmit}>
+                    <input onChange={handleSearchChange} value={search} type="search" name="search-box" placeholder="Search" />
                     <FaSearch />
                 </form>
+                <div className="paging-nav">
+                    <button className='page-button' onClick={() => onSelectPage(-1)}>previous Page</button>
+                    <button className='page-button' onClick={() => onSelectPage(1)}>Next Page</button>
+                </div>
             </header>
             {list.length ?
                 <section className='usersList'>
                     <div className="add-section">
                         <button className="add-user" onClick={() => onToggleEdit({}, true)}>Add new User</button>
                     </div>
-                    {filterdList.map((user, idx) => <UserPreview user={user} key={idx} toggleEdit={onToggleEdit} />)}
+                    {currentUsers.map((user, idx) => <UserPreview user={user} key={idx} toggleEdit={onToggleEdit} />)}
                 </section>
 
                 : <h1 className='loading'>Loding...</h1>}

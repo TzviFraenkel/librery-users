@@ -1,7 +1,7 @@
 import { storageService } from '../services/async-storage.service'
 
 const storageKey = 'users'
-const apiUrl = 'https://randomuser.me/api/?results=10';
+const apiUrl = 'https://randomuser.me/api/?results=100';
 
 
 export function loadUsers() {
@@ -9,15 +9,15 @@ export function loadUsers() {
         try {
             // const { filterBy } = getState().userModule
             let users = await storageService.query(storageKey)
-            // console.log('users frome actions ',users);
             if (!users.length) {
                 await fetch(apiUrl)
-                    .then(response => response.json())
-                    .then(data => {
-                        users = data.results
-                        storageService.multiplePost('users', data.results)
-                    });
+                .then(response => response.json())
+                .then(data => {
+                    users = data.results
+                    storageService.multiplePost('users', data.results)
+                });
             }
+            // console.log('users frome actions ',users);
             dispatch({ type: 'SET_USERS', users })
             return users;
 
